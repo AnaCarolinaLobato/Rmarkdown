@@ -1,0 +1,50 @@
+---
+title: "filtering and plots"
+author: "Ana Lobato"
+date: "01/11/2021"
+output: html_document
+---
+
+## Setting up my environment
+note: setting up my R environment by loading new database "hotel_bookings.csv" and loading 2 packages :tidyverse" and "ggplot2"
+
+```{r loading packages}
+library(tidyverse)
+library(ggplot2)
+```
+
+## setting up the database
+
+```{r loding database}
+hotel_bookings <- read.csv("hotel_bookings.csv")
+head(hotel_bookings)
+```
+
+## Visualizations
+Here we will go through a series of visualizations
+
+### market segment
+Here, we plot comparison between City Hotel and Resort Hotel
+
+```{r}
+ggplot(data = hotel_bookings)+
+  geom_bar(mapping = aes(x=hotel, fill=market_segment))
+```
+
+##### facet_wrap to make more clear
+
+```{r}
+ggplot(data = hotel_bookings) +
+  geom_bar(mapping = aes(x = hotel)) +
+  facet_wrap(~ market_segment)
+```
+
+### filtering with piper
+
+```{r}
+online_city_hotels_v2 <- hotel_bookings %>%
+  filter(hotel=="City Hotel")%>%
+  filter(market_segment=="Online TA")
+ggplot(data = online_city_hotels_v2)+
+  geom_point(mapping = aes(x=lead_time, y=children))
+```
